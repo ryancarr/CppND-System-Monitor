@@ -18,16 +18,8 @@ private:
     string upTime;
 
 public:
-    Process() {}
-    Process(string pid)
-    {
-        this->cmd    = ProcessParser::getCmd(pid);
-        this->cpu    = ProcessParser::getCpuPercent(pid);
-        this->mem    = ProcessParser::getVmSize(pid);
-        this->pid    = pid;
-        this->upTime = ProcessParser::getProcUpTime(pid);
-        this->user   = ProcessParser::getProcUser(pid);
-    }
+    Process();
+    Process(string);
 
     string getCmd()const;
     int getCpu()const;

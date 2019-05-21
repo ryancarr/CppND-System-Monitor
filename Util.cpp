@@ -1,5 +1,12 @@
 #include "Util.h"
 
+/*
+ * Converts a specified number of seconds into hours : minutes : seconds
+ * 
+ * @param input_seconds Starting number of seconds to convert
+ * 
+ * @return A string representing hh:mm:ss
+ */
 string Util::convertToTime (long int input_seconds)
 {
     long minutes = input_seconds / 60;
@@ -10,10 +17,18 @@ string Util::convertToTime (long int input_seconds)
     return result;
 }
 
-// constructing string for given percentage
-// 50 bars is uniformly streched 0 - 100 %
-// meaning: every 2% is one bar(|)
-string Util::getProgressBar(string percent){
+/*
+ * Brings in a percent and returns a string representing a progress bar filled to that amount
+ * 
+ * @param percent The percent that is to be represented by a progress bar
+ * 
+ * @return A string of characters representing an ASCII progress bar
+ */
+string Util::getProgressBar(string percent)
+{
+    // constructing string for given percentage
+    // 50 bars is uniformly stretched 0 - 100 %
+    // meaning: every 2% is one bar(|)
 
     string result = "0%% ";
     int _size= 50;
@@ -38,8 +53,15 @@ string Util::getProgressBar(string percent){
     return result;
 }
 
-// wrapper for creating streams
-void Util::getStream(string path, ifstream& stream){
+/*
+ * Opens an input file stream and performs basic error checking
+ * 
+ * @param path Absolute path to file to open
+ * 
+ * @param stream If successful a reference to the stream is created
+ */
+void Util::getStream(string path, ifstream& stream)
+{
     stream.open (path, ifstream::in);
     if (!stream && !stream.is_open())
     {
