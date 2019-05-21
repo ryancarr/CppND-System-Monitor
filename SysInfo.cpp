@@ -1,27 +1,27 @@
 #include "SysInfo.h"
 
 #pragma region Getters
-vector<string> SysInfo::getCoresStats()const
+vector<string> SysInfo::getCoresStats() const
 {
 
 }
 
-string SysInfo::getCpuPercent()const
+string SysInfo::getCpuPercent() const
 {
     return this->cpuPercent;
 }
 
-string SysInfo::getKernelVersion()const
+string SysInfo::getKernelVersion() const
 {
     return this->kernelVer;
 }
 
-string SysInfo::getMemPercent()const
+string SysInfo::getMemPercent() const
 {
     return to_string(this->memPercent);
 }
 
-string SysInfo::getOSName()const
+string SysInfo::getOSName() const
 {
     return this->OSname;
 }
@@ -42,22 +42,22 @@ void SysInfo::getOtherCores(int _size)
     }
 }
 
-string SysInfo::getRunningProc()const
+string SysInfo::getRunningProc() const
 {
     return to_string(this->runningProc);
 }
 
-string SysInfo::getThreads()const
+string SysInfo::getThreads() const
 {
     return to_string(this->threads);
 }
 
-string SysInfo::getTotalProc()const
+string SysInfo::getTotalProc() const
 {
     return to_string(this->totalProc);
 }
 
-long SysInfo::getUpTime()const
+long SysInfo::getUpTime() const
 {
     return this->upTime;
 }
