@@ -1,26 +1,32 @@
 CXX=g++
+OBJ = ./obj
+BIN = ./bin
 
-bin/main: main.cpp obj/SysInfo.o obj/ProcessContainer.o
-	$(CXX) main.cpp obj/SysInfo.o obj/ProcessContainer.o -o bin/main
+$(BIN)/main: main.cpp $(OBJ)/SysInfo.o $(OBJ)/ProcessContainer.o $(OBJ)/*.o
+	$(CXX) main.cpp $(OBJ)/SysInfo.o $(OBJ)/ProcessContainer.o -o bin/main
 
-obj/ProcessContainer.o: ProcessContainer.h ProcessContainer.cpp obj/Process.o
-	$(CXX) -c ProcessContainer.cpp -o obj/ProcessContainer.o
+$(OBJ)/ProcessContainer.o: ProcessContainer.h ProcessContainer.cpp $(OBJ)/Process.o $(OBJ)/*.o
+	$(CXX) -c ProcessContainer.cpp -o $(OBJ)/ProcessContainer.o
 
-obj/Process.o: Process.h Process.cpp obj/ProcessParser.o
-	$(CXX) -c Process.cpp -o obj/Process.o
+$(OBJ)/Process.o: Process.h Process.cpp $(OBJ)/ProcessParser.o $(OBJ)/*.o
+	$(CXX) -c Process.cpp -o $(OBJ)/Process.o
 
-obj/SysInfo.o: SysInfo.h SysInfo.cpp obj/ProcessParser.o obj/Util.o
-	$(CXX) -c SysInfo.cpp -o obj/SysInfo.o
+$(OBJ)/SysInfo.o: SysInfo.h SysInfo.cpp $(OBJ)/ProcessParser.o $(OBJ)/Util.o $(OBJ)/*.o
+	$(CXX) -c SysInfo.cpp -o $(OBJ)/SysInfo.o
 
-obj/ProcessParser.o: ProcessParser.h ProcessParser.cpp obj/Constants.o
-	$(CXX) -c ProcessParser.cpp -o obj/ProcessParser.o
+$(OBJ)/ProcessParser.o: ProcessParser.h ProcessParser.cpp $(OBJ)/Constants.o $(OBJ)/*.o
+	$(CXX) -c ProcessParser.cpp -o $(OBJ)/ProcessParser.o
 
-obj/Constants.o: Constants.h Constants.cpp
-	$(CXX) -c Constants.cpp -o obj/Constants.o
+$(OBJ)/Constants.o: Constants.h Constants.cpp $(OBJ)/*.o
+	$(CXX) -c Constants.cpp -o $(OBJ)/Constants.o
 
-obj/Util.o: Util.h Util.cpp
-	$(CXX) -c Util.cpp -o obj/Util.o
+$(OBJ)/Util.o: Util.h Util.cpp $(OBJ)/*.o
+	$(CXX) -c Util.cpp -o $(OBJ)/Util.o
+
+$(OBJ)/*.o:
+	mkdir -p $(OBJ)
+	mkdir -p $(BIN)
 
 clean:
-	$(RM) ./obj/*.o
-	$(RM) ./bin/*
+	rm -rf $(OBJ)
+	rm -rf $(BIN)
