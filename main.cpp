@@ -12,7 +12,9 @@
 #include "SysInfo.h"
 
 
-
+/*
+ *
+ */
 char* getCString(string str)
 {
     char * cstr = new char [str.length()+1];
@@ -20,6 +22,9 @@ char* getCString(string str)
     return cstr;
 }
 
+/*
+ *
+ */
 void writeSysInfoToConsole(SysInfo sys, WINDOW* sys_win)
 {
     sys.setAttributes();
@@ -50,6 +55,9 @@ void writeSysInfoToConsole(SysInfo sys, WINDOW* sys_win)
     wrefresh(sys_win);
 }
 
+/*
+ *
+ */
 void getProcessListToConsole(vector<string> processes,WINDOW* win)
 {
 
@@ -68,6 +76,9 @@ void getProcessListToConsole(vector<string> processes,WINDOW* win)
     }
 }
 
+/*
+ *
+ */
 void printMain(SysInfo sys,ProcessContainer procs)
 {
 	initscr();			/* Start curses mode 		  */
@@ -106,6 +117,9 @@ void printMain(SysInfo sys,ProcessContainer procs)
 	endwin();
 }
 
+/*
+ *
+ */
 int main(int argc, char *argv[])
 {
     //Object which contains list of current processes, Container for Process Class

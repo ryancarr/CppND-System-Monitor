@@ -1,10 +1,16 @@
 #include "Process.h"
 
+/*
+ *
+ */
 Process::Process()
 {
     // Default constructor
 }
 
+/*
+ *
+ */
 Process::Process(string pid)
 {
     this->cmd    = ProcessParser::getCmd(pid);
@@ -15,26 +21,41 @@ Process::Process(string pid)
     this->user   = ProcessParser::getProcUser(pid);
 }
 
+/*
+ *
+ */
 string Process::getCmd() const
 {
 
 }
 
+/*
+ *
+ */
 int Process::getCpu() const
 {
 
 }
 
+/*
+ *
+ */
 int Process::getMem() const
 {
 
 }
 
+/*
+ *
+ */
 string Process::getPid() const 
 {
     return this->pid;
 }
 
+/*
+ *
+ */
 string Process::getProcess()
 {
     if(!ProcessParser::isPidExisting(this->pid))
@@ -47,16 +68,25 @@ string Process::getProcess()
     return (this->pid + "   " + this->user + "   " + this->mem+ "   " + this->cpu + "   " + this->upTime);
 }
 
+/*
+ *
+ */
 string Process::getUpTime() const
 {
 
 }
 
+/*
+ *
+ */
 string Process::getUser() const
 {
 
 }
 
+/*
+ *
+ */
 void Process::setPid(int pid)
 {
     this->pid = pid;

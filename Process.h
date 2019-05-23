@@ -21,13 +21,13 @@ public:
     Process();
     Process(string);
 
-    string getCmd()const;
-    int getCpu()const;
-    int getMem()const;
-    string getPid()const;
+    string getCmd() const;
+    int getCpu() const;
+    int getMem() const;
+    string getPid() const;
     string getProcess();
-    string getUpTime()const;
-    string getUser()const;
+    string getUpTime() const;
+    string getUser() const;
     
     void setPid(int pid);
 };

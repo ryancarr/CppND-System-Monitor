@@ -12,19 +12,19 @@ using std::vector;
 class SysInfo 
 {
     private:
-        vector<string> lastCpuStats;
-        vector<string> currentCpuStats;
         vector<string> coresStats;
-        vector<vector<string>>lastCpuCoresStats;
-        vector<vector<string>>currentCpuCoresStats;
-        string cpuPercent;
+        string cpuPercent;        
+        vector<vector<string>> lastCpuCoresStats;
+        vector<string> currentCpuStats;
+        string kernelVer;
+        vector<vector<string>> currentCpuCoresStats;
+        vector<string> lastCpuStats;
         float memPercent;
         string OSname;
-        string kernelVer;
-        long upTime;
-        int totalProc;
         int runningProc;
         int threads;
+        int totalProc;
+        long upTime;
         
     public:
 
@@ -42,16 +42,16 @@ class SysInfo
             this-> kernelVer = ProcessParser::getSysKernelVersion();
         }
         
-        vector<string> getCoresStats()const;
-        string getCpuPercent()const;
-        string getKernelVersion()const;
-        string getMemPercent()const;
-        string getOSName()const;
+        vector<string> getCoresStats() const;
+        string getCpuPercent() const;
+        string getKernelVersion() const;
+        string getMemPercent() const;
+        string getOSName() const;
         void getOtherCores(int _size);
-        string getRunningProc()const;
-        string getThreads()const;
-        string getTotalProc()const;
-        long getUpTime()const;
+        string getRunningProc() const;
+        string getThreads() const;
+        string getTotalProc() const;
+        long getUpTime() const;
 
         void setAttributes();
         void setCpuCoresStats();

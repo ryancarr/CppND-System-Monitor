@@ -20,13 +20,13 @@ enum CPUStates{
 class Path
 {
     public:
-        static string basePath() { return "/proc/"; }
-        static string cmdPath() { return "/cmdline"; }
-        static string statusPath() { return "/status"; }
-        static string statPath() { return "stat"; }
-        static string upTimePath() { return "uptime"; }
-        static string memInfoPath() { return "meminfo"; }
-        static string versionPath() { return "version"; }
+        static const string basePath;
+        static const string cmdPath;
+        static const string statusPath;
+        static const string statPath;
+        static const string upTimePath;
+        static const string memInfoPath;
+        static const string versionPath;
 };
 
 #endif // CONSTANTS_H
