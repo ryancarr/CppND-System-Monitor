@@ -14,7 +14,8 @@ string ProcessParser::getCmd(string pid)
  */
 string ProcessParser::getCpuPercent(string pid)
 {
-    
+    // Read data from /proc/$$/stat
+    float frequency  = sysconf(_SC_CLK_TCK);    
 }
 
 /*
