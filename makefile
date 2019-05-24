@@ -3,7 +3,7 @@ OBJ = ./obj
 BIN = ./bin
 
 $(BIN)/main: main.cpp $(OBJ)/SysInfo.o $(OBJ)/ProcessContainer.o $(OBJ)/*.o
-	$(CXX) main.cpp $(OBJ)/SysInfo.o $(OBJ)/ProcessContainer.o -o bin/main
+	$(CXX) main.cpp $(OBJ)/SysInfo.o $(OBJ)/ProcessContainer.o -o $(BIN)/main
 
 $(OBJ)/ProcessContainer.o: ProcessContainer.h ProcessContainer.cpp $(OBJ)/Process.o $(OBJ)/*.o
 	$(CXX) -c ProcessContainer.cpp -o $(OBJ)/ProcessContainer.o
