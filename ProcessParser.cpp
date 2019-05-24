@@ -89,6 +89,7 @@ string ProcessParser::getProcUpTime(string pid)
 {
     string line;
     ifstream inputStream;
+    float result;
     vector<string> values;
 
     // Read data from /proc/$$/stat
@@ -99,7 +100,9 @@ string ProcessParser::getProcUpTime(string pid)
 
     float frequency  = sysconf(_SC_CLK_TCK);
 
-    return to_string(stof(values[13]) / frequency);
+    result = stof(values[13]) / frequency;
+
+    return to_string(result);
 }
 
 /*
@@ -107,7 +110,10 @@ string ProcessParser::getProcUpTime(string pid)
  */
 string ProcessParser::getProcUser(string pid)
 {
-    
+    // Find UID of /proc/pid/status
+
+    // Search /etc/passwd for the UID
+    // Position 0 - find(":") of that line is the username associated to that UID    
 }
 
 /*
@@ -181,17 +187,17 @@ int ProcessParser::getTotalThreads()
  */
 string ProcessParser::getVmSize(string pid)
 {
-    // Using code provided by the lecture
+    // Using slightly modified code provided by the lecture
     
     // Declaring search attribute for file
     string searchTerm = "VmData";
 
+    ifstream inputStream;
     string line;
     float result;
     vector<string> values;
 
     // Opening stream for specific file
-    ifstream inputStream;
     Util::getStream((Path::basePath + pid + Path::statusPath), inputStream);
     
     // Search line by line for the searchTerm
@@ -202,7 +208,7 @@ string ProcessParser::getVmSize(string pid)
         {
             values = SplitString(line);
 
-            //conversion kB -> MB
+            // Conversion kB -> MB
             result = (stof(values[1])/float(1024));
             break;
         }
@@ -237,11 +243,11 @@ string ProcessParser::PrintCpuStats(vector<string> values1, vector<string> value
 vector<string> ProcessParser::SplitString(string line)
 {
     // Use sstream to slice the string and place in a vector
-    istringstream buf(line);
-    istream_iterator<string> beg(buf), end;
+    istringstream buffer(line);
+    istream_iterator<string> begin(buffer), end;
 
     // Build vector of strings
-    vector<string> values(beg, end);
+    vector<string> values(begin, end);
     
     return values;
 }

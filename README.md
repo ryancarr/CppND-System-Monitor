@@ -7,7 +7,7 @@ Starter code for System Monitor Project in the C++ OOP course. Most of the code 
 1. Clone repository into `/home/workspace/`
 ```
 cd /home/workspace/
-git clone https://github.com/udacity/CppND-System-Monitor
+git clone https://github.com/ryancarr/CppND-System-Monitor
 ```
 2. Follow along with the lesson and make sure you complete the `ProcessParser` and `Process` classes before attempting to run the project.
 
@@ -17,8 +17,9 @@ sudo apt-get install libncurses5-dev libncursesw5-dev
 ```
 4. Compile and run
 ```
-g++ -std="c++17" main.cpp -lncurses
-./a.out
+make
+cd bin
+./main
 ```
 5. In case of error that looks like the following: 
 ```
