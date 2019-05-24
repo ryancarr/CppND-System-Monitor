@@ -14,8 +14,37 @@ string ProcessParser::getCmd(string pid)
  */
 string ProcessParser::getCpuPercent(string pid)
 {
+    string line;
+    float result;
+    ifstream inputStream;
+
     // Read data from /proc/$$/stat
-    float frequency  = sysconf(_SC_CLK_TCK);    
+    // Process data into a vector<string>
+    
+    float userTime = stof(ProcessParser::getProcUpTime(pid));
+
+    /* man proc  search for /proc/[pid]/stat
+    //int utime;                    /** user mode jiffies **/
+    //int stime;                    /** kernel mode jiffies **/
+    //int cutime;                   /** user mode jiffies with childs **/
+    //int cstime;                   /** kernel mode jiffies with childs **/ */
+    
+    //float scheduledTime         = 14
+    //float childUserTime         = 15
+    //float childScheduledtime    = 16
+    
+    //int starttime; /** 20 **/     /** Time the process started after system boot **/
+    //float startTime = 21 according to man proc
+
+    float systemUpTime = ProcessParser::getSysUpTime();    
+    float frequency  = sysconf(_SC_CLK_TCK);
+
+    //float totalTime = upTime + stime + cutime + cstime;
+    //float seconds = systemUpTime - (startTime/frequency);
+
+    //result = 100.0 * ((totalTime/frequency)/seconds);
+
+    return to_string(result);
 }
 
 /*
