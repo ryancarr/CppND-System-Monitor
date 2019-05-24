@@ -48,7 +48,7 @@ class ProcessParser{
         static vector<string> getSysCpuPercent(string);
         static string getSysKernelVersion();
         static float getSysRamPercent();
-        static long int getSysUpTime();
+        static long getSysUpTime();
         static int getTotalNumberOfProcesses();
         static int getTotalThreads();
         static string getVmSize(string);

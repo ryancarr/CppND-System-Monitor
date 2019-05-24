@@ -135,11 +135,25 @@ float ProcessParser::getSysRamPercent()
 }
 
 /*
- *
+ * Get total time since system boot in seconds
+ * 
+ * @return Time since boot in seconds
  */
-long int ProcessParser::getSysUpTime()
+long ProcessParser::getSysUpTime()
 {
+    ifstream inputStream;
+    string line;
+    long result;
+    vector<string> values;
+
+    Util::getStream(Path::basePath + Path::upTimePath, inputStream);
+    getline(inputStream, line);
     
+    // Zero index of /proc/uptime is number of seconds since system boot
+    values = SplitString(line);
+    result = stol(values[0]);
+    
+    return result;
 }
 
 /*
