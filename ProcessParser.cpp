@@ -79,11 +79,27 @@ vector<string> ProcessParser::getPidList()
 }
 
 /*
- *
+ * Gets the amount of time a process has been up in seconds
+ * 
+ * @param pid Process id to check
+ * 
+ * @return String representation of number of seconds
  */
 string ProcessParser::getProcUpTime(string pid)
 {
-    
+    string line;
+    ifstream inputStream;
+    vector<string> values;
+
+    // Read data from /proc/$$/stat
+    Util::getStream((Path::basePath + pid + "/" + Path::statPath), inputStream);
+    // Process data into a vector<string>
+    getline(inputStream, line);
+    values = SplitString(line);
+
+    float frequency  = sysconf(_SC_CLK_TCK);
+
+    return to_string(stof(values[13]) / frequency);
 }
 
 /*
