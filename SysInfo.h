@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "ProcessParser.h"
-#include "Util.h"
 using std::vector;
 
 class SysInfo 

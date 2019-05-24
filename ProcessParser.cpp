@@ -10,39 +10,38 @@ string ProcessParser::getCmd(string pid)
 }
 
 /*
- *
+ * Calculate the amount of cpu a given process id is using
+ * 
+ * @param pid Process id to calculate usage for
+ * 
+ * @return Percent of usage in string format
  */
 string ProcessParser::getCpuPercent(string pid)
 {
     string line;
     float result;
     ifstream inputStream;
+    vector<string> values;
 
     // Read data from /proc/$$/stat
+    Util::getStream((Path::basePath + pid + "/" + Path::statPath), inputStream);
     // Process data into a vector<string>
+    getline(inputStream, line);
+    values = SplitString(line);
     
-    float userTime = stof(ProcessParser::getProcUpTime(pid));
-
-    /* man proc  search for /proc/[pid]/stat
-    //int utime;                    /** user mode jiffies **/
-    //int stime;                    /** kernel mode jiffies **/
-    //int cutime;                   /** user mode jiffies with childs **/
-    //int cstime;                   /** kernel mode jiffies with childs **/ */
-    
-    //float scheduledTime         = 14
-    //float childUserTime         = 15
-    //float childScheduledtime    = 16
-    
-    //int starttime; /** 20 **/     /** Time the process started after system boot **/
-    //float startTime = 21 according to man proc
+    float utime     = stof(ProcessParser::getProcUpTime(pid));
+    float stime     = stof(values[14]);
+    float cutime    = stof(values[15]);
+    float cstime    = stof(values[16]);
+    float startTime = stof(values[21]); 
 
     float systemUpTime = ProcessParser::getSysUpTime();    
     float frequency  = sysconf(_SC_CLK_TCK);
 
-    //float totalTime = upTime + stime + cutime + cstime;
-    //float seconds = systemUpTime - (startTime/frequency);
+    float totalTime = utime + stime + cutime + cstime;
+    float seconds = systemUpTime - (startTime/frequency);
 
-    //result = 100.0 * ((totalTime/frequency)/seconds);
+    result = 100.0 * ((totalTime/frequency)/seconds);
 
     return to_string(result);
 }
@@ -155,11 +154,11 @@ string ProcessParser::getVmSize(string pid)
     // Using code provided by the lecture
     
     // Declaring search attribute for file
-    string searchTerm = "VmSize";
+    string searchTerm = "VmData";
 
     string line;
     float result;
-    string value;
+    vector<string> values;
 
     // Opening stream for specific file
     ifstream inputStream;
@@ -171,10 +170,7 @@ string ProcessParser::getVmSize(string pid)
         // Check to see if the line starts with searchTerm
         if (line.compare(0, searchTerm.size(),searchTerm) == 0)
         {
-            // Use sstream to slice the string and place in a vector
-            std::istringstream buf(line);
-            std::istream_iterator<string> beg(buf), end;
-            vector<string> values(beg, end);
+            values = SplitString(line);
 
             //conversion kB -> MB
             result = (stof(values[1])/float(1024));
@@ -199,4 +195,23 @@ bool ProcessParser::isPidExisting(string pid)
 string ProcessParser::PrintCpuStats(vector<string> values1, vector<string> values2)
 {
     
+}
+
+/*
+ * Splits a given string on spaces
+ * 
+ * @param line String to be split
+ * 
+ * @return Vector of strings
+ */
+vector<string> ProcessParser::SplitString(string line)
+{
+    // Use sstream to slice the string and place in a vector
+    istringstream buf(line);
+    istream_iterator<string> beg(buf), end;
+
+    // Build vector of strings
+    vector<string> values(beg, end);
+    
+    return values;
 }

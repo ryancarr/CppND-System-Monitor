@@ -23,7 +23,10 @@
 #include "Constants.h"
 #include "Util.h"
 
+using std::getline;
 using std::ifstream;
+using std::istringstream;
+using std::istream_iterator;
 using std::string;
 using std::vector;
 
@@ -32,6 +35,7 @@ using std::vector;
 class ProcessParser{
     private:
         ifstream stream;
+        static vector<string> SplitString(string);
     public:
         static string getCmd(string);
         static string getCpuPercent(string);
@@ -49,7 +53,7 @@ class ProcessParser{
         static int getTotalThreads();
         static string getVmSize(string);
         static bool isPidExisting(string);
-        static string PrintCpuStats(vector<string>, vector<string>);
+        static string PrintCpuStats(vector<string>, vector<string>);        
 };
 
 #endif // PROCESS_PARSER_H

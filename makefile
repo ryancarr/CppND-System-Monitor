@@ -11,10 +11,10 @@ $(OBJ)/ProcessContainer.o: ProcessContainer.h ProcessContainer.cpp $(OBJ)/Proces
 $(OBJ)/Process.o: Process.h Process.cpp $(OBJ)/ProcessParser.o $(OBJ)/*.o
 	$(CXX) -c Process.cpp -o $(OBJ)/Process.o
 
-$(OBJ)/SysInfo.o: SysInfo.h SysInfo.cpp $(OBJ)/ProcessParser.o $(OBJ)/Util.o $(OBJ)/*.o
+$(OBJ)/SysInfo.o: SysInfo.h SysInfo.cpp $(OBJ)/ProcessParser.o $(OBJ)/*.o
 	$(CXX) -c SysInfo.cpp -o $(OBJ)/SysInfo.o
 
-$(OBJ)/ProcessParser.o: ProcessParser.h ProcessParser.cpp $(OBJ)/Constants.o $(OBJ)/*.o
+$(OBJ)/ProcessParser.o: ProcessParser.h ProcessParser.cpp $(OBJ)/Constants.o $(OBJ)/Util.o $(OBJ)/*.o
 	$(CXX) -c ProcessParser.cpp -o $(OBJ)/ProcessParser.o
 
 $(OBJ)/Constants.o: Constants.h Constants.cpp $(OBJ)/*.o
