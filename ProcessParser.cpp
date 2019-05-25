@@ -55,11 +55,27 @@ string ProcessParser::getCpuPercent(string pid)
 }
 
 /*
- *
+ * Get the number of cores your CPU has
+ * 
+ * @return Int representing the number of CPU cores
  */
 int ProcessParser::getNumberOfCores()
 {
-    
+    string searchTerm = "processor";
+
+    string line;
+    ifstream inputStream;
+    vector<string> values;
+
+    Util::getStream(Path::basePath + "cpuinfo", inputStream);
+
+    while(getline(inputStream, line))
+    {
+        if(line.compare(0, searchTerm.size(), searchTerm) == 0)
+            values = SplitString(line);
+    }
+
+    return stoi(values[2]) + 1;
 }
 
 /*
@@ -103,20 +119,18 @@ vector<string> ProcessParser::getPidList()
         // Check each character in dictionary name for digit status
         for(char c : dir->d_name)
         {
-            if(isdigit(c))
-               validPid = true;
-            else
-            {
-                validPid = false;
-                break;
-            }             
+            // d_name always contains 256 characters
+            // The valid characters are null delimited
+            if(c == '\0') break;
+
+            validPid = isdigit(c);
         }
 
         if(validPid)
             pids.push_back(dir->d_name);
     }
 
-    // Close directory
+    // Close directory - TODO: Some sort of error checking
     closedir(directory);
 
     return pids;
