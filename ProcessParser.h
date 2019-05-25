@@ -25,6 +25,7 @@
 
 using std::getline;
 using std::ifstream;
+using std::isdigit;
 using std::istringstream;
 using std::istream_iterator;
 using std::string;

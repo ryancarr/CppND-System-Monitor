@@ -95,7 +95,7 @@ vector<string> ProcessParser::getPidList()
         // Check each character in dictionary name for digit status
         for(char c : dir->d_name)
         {
-            if(isDigit(c))
+            if(isdigit(c))
                validPid = true;
             else
             {
@@ -110,7 +110,7 @@ vector<string> ProcessParser::getPidList()
 
     // Close directory
     closedir(directory);
-    
+
     return pids;
 }
 
