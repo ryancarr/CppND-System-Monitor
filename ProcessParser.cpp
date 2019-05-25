@@ -106,14 +106,50 @@ string ProcessParser::getProcUpTime(string pid)
 }
 
 /*
- *
+ * Find the username of the owner of a given Process ID
+ * 
+ * @param pid Process ID to check
+ * 
+ * @return Username if found, blank string if not found
  */
 string ProcessParser::getProcUser(string pid)
 {
-    // Find UID of /proc/pid/status
+    // Declaring search attribute for file
+    string searchTerm = "Uid:";
 
-    // Search /etc/passwd for the UID
-    // Position 0 - find(":") of that line is the username associated to that UID    
+    ifstream inputStream;
+    string line;
+    string result;
+    vector<string> values;
+
+    // Opening stream for specific file
+    Util::getStream((Path::basePath + pid + Path::statusPath), inputStream);
+    
+    // Search line by line for the searchTerm
+    while(std::getline(inputStream, line))
+    {
+        // Check to see if the line starts with searchTerm
+        if (line.compare(0, searchTerm.size(),searchTerm) == 0)
+        {
+            result = SplitString(line)[1];            
+            break;
+        }
+    }
+
+    // Check /etc/passwd for user name
+    Util::getStream("/etc/passwd", inputStream);
+    // Search line by line for the searchTerm
+    while(std::getline(inputStream, line))
+    {
+        // Check to see if the line contains the Uid
+        if (line.find("x:" + result) != string::npos)
+            result = line.substr(0, line.find(":"));
+        else
+            result = "";
+        
+    }
+
+    return result;
 }
 
 /*
