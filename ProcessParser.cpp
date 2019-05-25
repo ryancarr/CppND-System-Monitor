@@ -2,11 +2,19 @@
 
 #pragma region Getters
 /*
- *
+ * Gets the full path location for the given Process ID
+ * 
+ * @return String containing a path
  */
 string ProcessParser::getCmd(string pid)
-{ 
+{
+    string line;
+    ifstream inputStream;
 
+    Util::getStream((Path::basePath + pid + Path::cmdPath), inputStream);
+    getline(inputStream, line);
+
+    return line;
 }
 
 /*
