@@ -108,6 +108,9 @@ vector<string> ProcessParser::getPidList()
             pids.push_back(dir->d_name);
     }
 
+    // Close directory
+    closedir(directory);
+    
     return pids;
 }
 
