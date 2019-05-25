@@ -71,11 +71,44 @@ string ProcessParser::getOSName()
 }
 
 /*
- *
+ * Get a list of every currently running PID
+ * 
+ * @return A vector containing every valid PID
  */
 vector<string> ProcessParser::getPidList()
 {
-    
+    DIR *directory = nullptr;
+    directory = opendir("/proc");
+    vector<string> pids;
+
+    // TODO: if(directory == nullptr) some sort of graceful error
+
+    // Check each entry in directory
+    while(dirent *dir = readdir(directory))
+    {
+        // Default to a PID not being valid
+        bool validPid = false;
+
+        // Skip any entries that aren't a directory
+        if(dir->d_type != DT_DIR) continue;
+        
+        // Check each character in dictionary name for digit status
+        for(char c : dir->d_name)
+        {
+            if(isDigit(c))
+               validPid = true;
+            else
+            {
+                validPid = false;
+                break;
+            }             
+        }
+
+        if(validPid)
+            pids.push_back(dir->d_name);
+    }
+
+    return pids;
 }
 
 /*
