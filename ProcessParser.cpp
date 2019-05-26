@@ -61,6 +61,7 @@ string ProcessParser::getCpuPercent(string pid)
  */
 int ProcessParser::getNumberOfCores()
 {
+    /*
     string searchTerm = "processor";
 
     string line;
@@ -76,6 +77,11 @@ int ProcessParser::getNumberOfCores()
     }
 
     return stoi(values[2]) + 1;
+    */
+
+   // This method gets the number of logical cores in your computer
+   // Also it only takes a fraction of the time that the above commented code does
+   return std::thread::hardware_concurrency();
 }
 
 /*
