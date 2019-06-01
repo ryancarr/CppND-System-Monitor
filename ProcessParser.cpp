@@ -130,6 +130,9 @@ vector<string> ProcessParser::getPidList()
             if(c == '\0') break;
 
             validPid = isdigit(c);
+
+            // Stop checking invalid directories as soon as possible
+            if(!validPid) break;
         }
 
         if(validPid)
@@ -217,11 +220,56 @@ string ProcessParser::getProcUser(string pid)
 }
 
 /*
- *
+ * Removes idle time from vector of CPU time
+ * 
+ * @return float representing total time spent active
+ */
+float ProcessParser::getSysActiveCpuTime(vector<string> values)
+{
+    return (stof(values[S_USER]) +
+            stof(values[S_NICE]) +
+            stof(values[S_SYSTEM]) +
+            stof(values[S_IRQ]) +
+            stof(values[S_SOFTIRQ]) +
+            stof(values[S_STEAL]) +
+            stof(values[S_GUEST]) +
+            stof(values[S_GUEST_NICE]));
+}
+
+/*
+ * Removes active time from vector of CPU time
+ * 
+ * @return float representing total time spent idle
+ */
+float ProcessParser::getSysIdleCpuTime(vector<string> values)
+{
+    return (stof(values[S_IDLE]) + stof(values[S_IOWAIT]));
+}
+
+/*
+ * Gets total CPU usage for a specific core, if no core is passed in than total usage will be calculated
+ * 
+ * @return A vector of strings containing data about CPU usage
  */
 vector<string> ProcessParser::getSysCpuPercent(string coreNumber = "")
 {
-    
+    ifstream inputStream;
+    string line;
+    string searchTerm = "cpu" + coreNumber;
+    vector<string> values;
+
+    Util::getStream(Path::basePath + "/" + Path::statPath, inputStream);
+
+    while(getline(inputStream, line))
+    {
+        if(line.compare(0, searchTerm.size(), searchTerm) == 0)
+        {
+            values = SplitString(line);
+            break;
+        }
+    }
+
+    return values;
 }
 
 /*
@@ -318,17 +366,34 @@ string ProcessParser::getVmSize(string pid)
 #pragma endregion
 
 /*
- *
+ * Calculate percent of cput time spent actively working
+ * 
+ * @param values1 A vector of strings retrieved from getSysCpuPercent
+ * 
+ * @param values2 A vector of strings retrieved from getSysCpuPercent shortly after values1
+ * 
+ * @return A string containing a percent from 0 to 100
  */
-bool ProcessParser::isPidExisting(string pid)
+string ProcessParser::CalculateCpuStats(vector<string> values1, vector<string> values2)
 {
+    // Method was originally called PrintCpuStats, but that's not an accurate description
+    // We're calculating what percent of total runtime has been spent actively working
     
+    float activeTime = getSysActiveCpuTime(values2) - getSysActiveCpuTime(values1);
+    float idleTime = getSysIdleCpuTime(values2) - getSysIdleCpuTime(values1);
+    
+    float totalTime = activeTime + idleTime;
+
+    // Returns a float between 0 and 100 representing how busy CPU is
+    float result = 100.0F * (activeTime / totalTime);
+
+    return to_string(result);
 }
 
 /*
  *
  */
-string ProcessParser::PrintCpuStats(vector<string> values1, vector<string> values2)
+bool ProcessParser::isPidExisting(string pid)
 {
     
 }

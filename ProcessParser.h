@@ -46,6 +46,8 @@ class ProcessParser{
         static vector<string> getPidList();
         static string getProcUser(string);
         static string getProcUpTime(string);
+        static float getSysActiveCpuTime(vector<string>);
+        static float getSysIdleCpuTime(vector<string>);
         static vector<string> getSysCpuPercent(string);
         static string getSysKernelVersion();
         static float getSysRamPercent();
@@ -53,8 +55,8 @@ class ProcessParser{
         static int getTotalNumberOfProcesses();
         static int getTotalThreads();
         static string getVmSize(string);
+        static string CalculateCpuStats(vector<string>, vector<string>);
         static bool isPidExisting(string);
-        static string PrintCpuStats(vector<string>, vector<string>);        
 };
 
 #endif // PROCESS_PARSER_H
