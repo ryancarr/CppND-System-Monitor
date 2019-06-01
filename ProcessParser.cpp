@@ -241,6 +241,8 @@ float ProcessParser::getSysActiveCpuTime(vector<string> values)
 /*
  * Gets total CPU usage for a specific core, if no core is passed in than total usage will be calculated
  * 
+ * @param coreNumber Optional variable containing a number representing one of the cpu cores
+ * 
  * @return A vector of strings containing data about CPU usage
  */
 vector<string> ProcessParser::getSysCpuPercent(string coreNumber = "")
@@ -285,11 +287,44 @@ string ProcessParser::getSysKernelVersion()
 }
 
 /*
- *
+ * Calculate the amount of RAM currently available for use
+ * 
+ * @return Float representing the percent
  */
 float ProcessParser::getSysRamPercent()
 {
+    ifstream inputStream;
+    inputStream.open("/proc/meminfo");
+    string line;
+    unordered_map<string, float> values = { {"MemAvailable:",0},
+                                            {"MemFree:", 0},
+                                            {"Buffers:", 0} };
+
+    while(getline(inputStream, line))
+    {
+        // Counter is used to bail out of the file once we've read the data we need
+        static int counter = 1;
+
+        // Foreach key,value pair in values unordered_map
+        for(auto &kv : values)
+        {
+            // kv.first refers to the key
+            if(line.compare(0, kv.first.size(), kv.first) == 0)
+            {
+                // kv.second refers to the value
+                kv.second = stof(SplitString(line)[1]);
+            }
+
+        }
+
+        // Buffer: is on the 4th line, break if we've passed all the lines we want
+        if(counter > 4) break;
+        
+        counter++;
+    }
     
+    // Convert (Free memory / (Total Memory - Buffers)) to a percent representing amount of memory free for use
+    return float(100.0 * (1 - values.at("MemFree:") / (values.at("MemAvailable:") - values.at("Buffers:"))));
 }
 
 /*

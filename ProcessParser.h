@@ -18,6 +18,7 @@
 #include <string>
 #include <time.h>
 #include <unistd.h>
+#include <unordered_map>
 #include <vector>
 
 #include "Constants.h"
@@ -29,6 +30,7 @@ using std::isdigit;
 using std::istringstream;
 using std::istream_iterator;
 using std::string;
+using std::unordered_map;
 using std::vector;
 
 
