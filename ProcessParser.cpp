@@ -308,6 +308,9 @@ float ProcessParser::getSysRamPercent()
         // Foreach key,value pair in values unordered_map
         for(auto &kv : values)
         {
+            // If the value of kv.second has changed we know we can skip it
+            if(kv.second > 0) continue;
+
             // kv.first refers to the key
             if(line.compare(0, kv.first.size(), kv.first) == 0)
             {
@@ -318,11 +321,11 @@ float ProcessParser::getSysRamPercent()
         }
 
         // Buffer: is on the 4th line, break if we've passed all the lines we want
-        if(counter > 4) break;
+        if(counter >= 4) break;
         
         counter++;
     }
-    
+
     // Convert (Free memory / (Total Memory - Buffers)) to a percent representing amount of memory free for use
     return float(100.0 * (1 - values.at("MemFree:") / (values.at("MemAvailable:") - values.at("Buffers:"))));
 }
