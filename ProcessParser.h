@@ -47,8 +47,8 @@ class ProcessParser{
         static string getProcUser(string);
         static string getProcUpTime(string);
         static float getSysActiveCpuTime(vector<string>);
-        static float getSysIdleCpuTime(vector<string>);
         static vector<string> getSysCpuPercent(string);
+        static float getSysIdleCpuTime(vector<string>);
         static string getSysKernelVersion();
         static float getSysRamPercent();
         static long getSysUpTime();
