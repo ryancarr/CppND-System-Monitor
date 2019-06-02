@@ -85,11 +85,29 @@ int ProcessParser::getNumberOfCores()
 }
 
 /*
- *
+ * Gets the number of prcesses that are actively running
+ * 
+ * @return An integer representing the number of active processes
  */
 int ProcessParser::getNumberOfRunningProcesses()
 {
-    
+    ifstream inputStream;
+    string line;
+    int result;
+    string searchTerm = "procs_running";
+
+    Util::getStream(Path::basePath + Path::statPath, inputStream);
+
+    while(getline(inputStream, line))
+    {
+        if(line.compare(0, searchTerm.size(), searchTerm) == 0)
+        {
+            result = stoi(SplitString(line)[1]);
+            break;
+        }
+    }
+
+    return result;
 }
 
 /*
@@ -381,20 +399,31 @@ long ProcessParser::getSysUpTime()
 }
 
 /*
- *
+ * Get the number of currently running processes
+ * 
+ * @return An int representing the number of active processes
  */
 int ProcessParser::getTotalNumberOfProcesses()
 {
-    
+    ifstream inputStream;
+    string line;
+    int result;
+    string searchTerm = "processes";
+
+    Util::getStream(Path::basePath + Path::statPath, inputStream);
+
+    while(getline(inputStream, line))
+    {
+        if(line.compare(0, searchTerm.size(), searchTerm) == 0)
+        {
+            result = stoi(SplitString(line)[1]);
+            break;
+        }
+    }
+
+    return result;
 }
 
-/*
- *
- */
-int ProcessParser::getTotalThreads()
-{
-    
-}
 
 /*
  * Get the memory size of a given process id
@@ -461,11 +490,16 @@ string ProcessParser::CalculateCpuStats(vector<string> values1, vector<string> v
 }
 
 /*
- *
+ * Check if a pid actually exists
+ * 
+ * @return True if pid is found false if it is not found
  */
 bool ProcessParser::isPidExisting(string pid)
 {
-    
+    vector<string> pidList = getPidList();
+
+    // Search pidList for pid, if it exists return true
+    return find(pidList.begin(), pidList.end(), pid) != pidList.end();
 }
 
 /*

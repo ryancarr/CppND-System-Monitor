@@ -22,6 +22,7 @@
 #include "Constants.h"
 #include "Util.h"
 
+using std::find;
 using std::getline;
 using std::isdigit;
 using std::istringstream;
