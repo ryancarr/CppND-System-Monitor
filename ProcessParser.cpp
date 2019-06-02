@@ -424,6 +424,37 @@ int ProcessParser::getTotalNumberOfProcesses()
     return result;
 }
 
+/*
+ * Gets the total number of threads across all PIDs
+ * 
+ * @return An integer representing the total number of threads
+ */
+int ProcessParser::getTotalThreads()
+{
+    ifstream inputStream;
+    string line;
+    int result = 0;
+    string searchTerm = "Threads:";
+    
+    vector<string> pids = getPidList();
+
+    // Step through each pid
+    for(string pid : pids)
+    {
+        Util::getStream(Path::basePath + pid + Path::statusPath, inputStream);
+
+        while(getline(inputStream, line))
+        {
+            if(line.compare(0, searchTerm.size(), searchTerm) == 0)
+            {
+                result += stoi(SplitString(line)[1]);
+                break;
+            }
+        }
+    }
+
+    return result;
+}
 
 /*
  * Get the memory size of a given process id
