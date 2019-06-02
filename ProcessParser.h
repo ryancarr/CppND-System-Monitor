@@ -29,6 +29,7 @@ using std::ifstream;
 using std::isdigit;
 using std::istringstream;
 using std::istream_iterator;
+using std::stof;
 using std::string;
 using std::unordered_map;
 using std::vector;
