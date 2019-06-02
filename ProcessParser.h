@@ -6,7 +6,6 @@
 #include <chrono>
 #include <cstring>
 #include <dirent.h>
-#include <fstream>
 #include <iostream>
 #include <iterator>
 #include <math.h>
@@ -15,7 +14,6 @@
 #include <stdexcept>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string>
 #include <time.h>
 #include <unistd.h>
 #include <unordered_map>
@@ -25,12 +23,10 @@
 #include "Util.h"
 
 using std::getline;
-using std::ifstream;
 using std::isdigit;
 using std::istringstream;
 using std::istream_iterator;
 using std::stof;
-using std::string;
 using std::unordered_map;
 using std::vector;
 
