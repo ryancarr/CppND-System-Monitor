@@ -93,11 +93,25 @@ int ProcessParser::getNumberOfRunningProcesses()
 }
 
 /*
- *
+ * Gets the name and version of the OS
+ * 
+ * @return String containing the pretty version of the OS name and version
  */
 string ProcessParser::getOSName()
 {
-    
+    ifstream inputStream;
+    string line;
+    string searchTerm = "PRETTY_NAME";
+
+    Util::getStream("/etc/os-release", inputStream);
+
+    while(getline(inputStream, line))
+    {
+        if(line.compare(0, searchTerm.size(), searchTerm) == 0)
+            return SplitString(line, "\"")[1];
+    }
+
+    return "";
 }
 
 /*
@@ -279,11 +293,25 @@ float ProcessParser::getSysIdleCpuTime(vector<string> values)
 }
 
 /*
- *
+ * Retrieves the current kernel version
+ * 
+ * @return A string representing the kernel version number
  */
 string ProcessParser::getSysKernelVersion()
 {
-    
+    ifstream inputStream;
+    string line;
+    string searchTerm = "Linux version";
+
+    Util::getStream(Path::basePath + Path::versionPath, inputStream);
+
+    while(getline(inputStream, line))
+    {
+        if(line.compare(0, searchTerm.size(), searchTerm) == 0)
+            return SplitString(line)[2];
+    }
+
+    return "";
 }
 
 /*
@@ -442,19 +470,28 @@ bool ProcessParser::isPidExisting(string pid)
 
 /*
  * Splits a given string on spaces
- * 
+ *
  * @param line String to be split
- * 
+ *
+ * @param delimiter What to split the string on, if no value passed, split on space
+ *
  * @return Vector of strings
  */
-vector<string> ProcessParser::SplitString(string line)
+vector<string> ProcessParser::SplitString(string line, string delimiter = " ")
 {
-    // Use sstream to slice the string and place in a vector
-    istringstream buffer(line);
-    istream_iterator<string> begin(buffer), end;
+    size_t position = 0;
+    string token;
+    vector<string> values;
 
-    // Build vector of strings
-    vector<string> values(begin, end);
-    
+    while ((position = line.find(delimiter)) != string::npos)
+    {
+        token = line.substr(0, position);
+        values.push_back(token);
+        line.erase(0, position + delimiter.length());
+    }
+
+    if(line.size() > 0)
+        values.push_back(line);
+
     return values;
 }

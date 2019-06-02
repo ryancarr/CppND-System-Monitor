@@ -37,8 +37,7 @@ using std::vector;
 
 class ProcessParser{
     private:
-        ifstream inputStream;
-        static vector<string> SplitString(string);
+        static vector<string> SplitString(string, string);
     public:
         static string getCmd(string);
         static string getCpuPercent(string);
