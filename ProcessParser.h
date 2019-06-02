@@ -34,6 +34,7 @@ using std::vector;
 
 class ProcessParser{
     private:
+        static vector<string> SplitString(string);
         static vector<string> SplitString(string, string);
     public:
         static string getCmd(string);

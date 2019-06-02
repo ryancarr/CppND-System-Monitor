@@ -35,7 +35,7 @@ string ProcessParser::getCpuPercent(string pid)
     Util::getStream((Path::basePath + pid + "/" + Path::statPath), inputStream);
     // Process data into a vector<string>
     getline(inputStream, line);
-    values = SplitString(line, " ");
+    values = SplitString(line);
     
     float utime     = stof(ProcessParser::getProcUpTime(pid));
     float stime     = stof(values[14]);
@@ -73,7 +73,7 @@ int ProcessParser::getNumberOfCores()
     while(getline(inputStream, line))
     {
         if(line.compare(0, searchTerm.size(), searchTerm) == 0)
-            values = SplitString(line, " ");
+            values = SplitString(line);
     }
 
     return stoi(values[2]) + 1;
@@ -177,7 +177,7 @@ string ProcessParser::getProcUpTime(string pid)
     Util::getStream((Path::basePath + pid + "/" + Path::statPath), inputStream);
     // Process data into a vector<string>
     getline(inputStream, line);
-    values = SplitString(line, " ");
+    values = SplitString(line);
 
     float frequency  = sysconf(_SC_CLK_TCK);
 
@@ -212,7 +212,7 @@ string ProcessParser::getProcUser(string pid)
         // Check to see if the line starts with searchTerm
         if (line.compare(0, searchTerm.size(),searchTerm) == 0)
         {
-            result = SplitString(line, " ")[1];            
+            result = SplitString(line)[1];            
             break;
         }
     }
@@ -272,7 +272,7 @@ vector<string> ProcessParser::getSysCpuPercent(string coreNumber = "")
     {
         if(line.compare(0, searchTerm.size(), searchTerm) == 0)
         {
-            values = SplitString(line, " ");
+            values = SplitString(line);
             break;
         }
     }
@@ -308,7 +308,7 @@ string ProcessParser::getSysKernelVersion()
     while(getline(inputStream, line))
     {
         if(line.compare(0, searchTerm.size(), searchTerm) == 0)
-            return SplitString(line, " ")[2];
+            return SplitString(line)[2];
     }
 
     return "";
@@ -343,7 +343,7 @@ float ProcessParser::getSysRamPercent()
             if(line.compare(0, kv.first.size(), kv.first) == 0)
             {
                 // kv.second refers to the value
-                kv.second = stof(SplitString(line, " ")[1]);
+                kv.second = stof(SplitString(line)[1]);
             }
 
         }
@@ -374,7 +374,7 @@ long ProcessParser::getSysUpTime()
     getline(inputStream, line);
     
     // Zero index of /proc/uptime is number of seconds since system boot
-    values = SplitString(line, " ");
+    values = SplitString(line);
     result = stol(values[0]);
     
     return result;
@@ -424,7 +424,7 @@ string ProcessParser::getVmSize(string pid)
         // Check to see if the line starts with searchTerm
         if (line.compare(0, searchTerm.size(),searchTerm) == 0)
         {
-            values = SplitString(line, " ");
+            values = SplitString(line);
 
             // Conversion kB -> MB
             result = (stof(values[1])/float(1024));
@@ -472,12 +472,30 @@ bool ProcessParser::isPidExisting(string pid)
  * Splits a given string on spaces
  *
  * @param line String to be split
+ * 
+ * @return Vector of strings
+ */
+vector<string> ProcessParser::SplitString(string line)
+{
+    // Use sstream to slice the string and place in a vector
+    istringstream buffer(line);
+    istream_iterator<string> begin(buffer), end;
+    // Build vector of strings
+    vector<string> values(begin, end);
+
+    return values;
+}
+
+/*
+ * Splits a given string on spaces
+ *
+ * @param line String to be split
  *
  * @param delimiter What to split the string on, if no value passed, split on space
  *
  * @return Vector of strings
  */
-vector<string> ProcessParser::SplitString(string line, string delimiter = " ")
+vector<string> ProcessParser::SplitString(string line, string delimiter)
 {
     size_t position = 0;
     string token;
