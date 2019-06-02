@@ -99,7 +99,7 @@ long SysInfo::getUpTime() const
  */
 void SysInfo::setLastCpuMeasures()
 {
- this->lastCpuStats = ProcessParser::getSysCpuPercent();
+ this->lastCpuStats = ProcessParser::getSysCpuPercent("");
 }
 
 /*
@@ -113,7 +113,7 @@ void SysInfo::setCpuCoresStats()
 
     // after acquirement of data we are calculating every core percentage of usage
     for(int i=0;i<this->currentCpuCoresStats.size();i++)
-        this->coresStats[i] = ProcessParser::PrintCpuStats(this->lastCpuCoresStats[i],this->currentCpuCoresStats[i]);
+        this->coresStats[i] = ProcessParser::CalculateCpuStats(this->lastCpuCoresStats[i],this->currentCpuCoresStats[i]);
 
     this->lastCpuCoresStats = this->currentCpuCoresStats;
 }
@@ -129,8 +129,8 @@ void SysInfo::setAttributes()
     this-> totalProc = ProcessParser::getTotalNumberOfProcesses();
     this-> runningProc = ProcessParser::getNumberOfRunningProcesses();
     this-> threads = ProcessParser::getTotalThreads();
-    this->currentCpuStats = ProcessParser::getSysCpuPercent();
-    this->cpuPercent = ProcessParser::PrintCpuStats(this->lastCpuStats,this->currentCpuStats);
+    this->currentCpuStats = ProcessParser::getSysCpuPercent("");
+    this->cpuPercent = ProcessParser::CalculateCpuStats(this->lastCpuStats,this->currentCpuStats);
     this->lastCpuStats = this->currentCpuStats;
     this->setCpuCoresStats();
 }
