@@ -36,7 +36,8 @@ void ProcessContainer::refreshList()
 {
     vector<string> pidList = ProcessParser::getPidList();
     this->_list.clear();
-    for(int i=0;i<pidList.size();i++){
+    for(int i=0;i<pidList.size();i++)
+    {
         Process proc(pidList[i]);
         this->_list.push_back(proc);
     }
@@ -48,7 +49,8 @@ void ProcessContainer::refreshList()
 string ProcessContainer::printList()
 {
     string result="";
-    for(int i=0;i<this->_list.size();i++){
+    for(int i=0;i<this->_list.size();i++)
+    {
         result += this->_list[i].getProcess();
     }
     return result;

@@ -200,8 +200,8 @@ string ProcessParser::getProcUpTime(string pid)
     float frequency  = sysconf(_SC_CLK_TCK);
 
     result = stof(values[13]) / frequency;
-
-    return to_string(result);
+    
+    return Util::convertToTime(long(result));
 }
 
 /*
@@ -217,6 +217,7 @@ string ProcessParser::getProcUser(string pid)
     string searchTerm = "Uid:";
 
     ifstream inputStream;
+    ifstream inputStream2;
     string line;
     string result;
     vector<string> values;
@@ -230,22 +231,19 @@ string ProcessParser::getProcUser(string pid)
         // Check to see if the line starts with searchTerm
         if (line.compare(0, searchTerm.size(),searchTerm) == 0)
         {
-            result = SplitString(line)[1];            
+            result = SplitString(line)[1];
             break;
         }
     }
 
     // Check /etc/passwd for user name
-    Util::getStream("/etc/passwd", inputStream);
+    Util::getStream("/etc/passwd", inputStream2);
     // Search line by line for the searchTerm
-    while(std::getline(inputStream, line))
+    while(std::getline(inputStream2, line))
     {
         // Check to see if the line contains the Uid
         if (line.find("x:" + result) != string::npos)
             result = line.substr(0, line.find(":"));
-        else
-            result = "";
-        
     }
 
     return result;
