@@ -337,7 +337,7 @@ string ProcessParser::getSysKernelVersion()
  */
 float ProcessParser::getSysRamPercent()
 {
-    // Originally had written this to use a hash map and if checks
+    // Originally had written this to use a hash map and fewer if checks
     // For some reason it would occasionally return -nan
     // I gave up on troubleshooting it and opted for this version
     // When solved I'll bring the previous version back

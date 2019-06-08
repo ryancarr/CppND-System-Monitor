@@ -17,8 +17,7 @@ sudo apt-get install libncurses5-dev libncursesw5-dev
 ```
 4. Compile and run
 ```
-make
-cd bin
+g++ -std=c++17 main.cpp Util.cpp Constants.cpp SysInfo.cpp ProcessParser.cpp Process.cpp ProcessContainer.cpp -o main -lcurses
 ./main
 ```
 5. In case of error that looks like the following: 
