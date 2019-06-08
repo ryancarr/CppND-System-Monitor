@@ -19,7 +19,7 @@ vector<string> SysInfo::getCoresStats() const
             return vector<string>();
         }
         
-        temp += Util::getProgressBar(this->coresStats[i]);
+        temp += "  " + Util::getProgressBar(this->coresStats[i]);
         result.push_back(temp);
     }
     return result;

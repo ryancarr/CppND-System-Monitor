@@ -92,6 +92,7 @@ string Process::getProcess()
     mem.insert(mem.end(), 5 - mem.size(), ' ');
     user.insert(user.end(), 7 - user.size(), ' ');
     upTime.insert(upTime.end(), 10 - upTime.size(), ' ');
+    cmd.insert(cmd.end(), 100 - cmd.size(), ' '); // Pad cmd with spaces to overwrite old data
 
     return (pid + "  " + 
             user + "   " +

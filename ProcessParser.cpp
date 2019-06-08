@@ -338,40 +338,38 @@ string ProcessParser::getSysKernelVersion()
 float ProcessParser::getSysRamPercent()
 {
     ifstream inputStream;
-    inputStream.open("/proc/meminfo");
     string line;
-    unordered_map<string, float> values = { {"MemAvailable:",0},
-                                            {"MemFree:", 0},
-                                            {"Buffers:", 0} };
+    string searchTerm1 = "MemAvailable:";
+    string searchTerm2 = "MemFree:";
+    string searchTerm3 = "Buffers:";
 
-    while(getline(inputStream, line))
+    float buffers = 0;
+    float free_mem = 0;
+    float total_mem = 0;
+
+    int result;
+
+    Util::getStream(Path::basePath + Path::memInfoPath, inputStream);
+
+    while (std::getline(inputStream, line))
     {
-        // Counter is used to bail out of the file once we've read the data we need
-        static int counter = 1;
-
-        // Foreach key,value pair in values unordered_map
-        for(auto &kv : values)
+        if (total_mem == float(0) && line.compare(0, searchTerm1.size(), searchTerm1) == 0)
         {
-            // If the value of kv.second has changed we know we can skip it
-            if(kv.second > 0) continue;
-
-            // kv.first refers to the key
-            if(line.compare(0, kv.first.size(), kv.first) == 0)
-            {
-                // kv.second refers to the value
-                kv.second = stof(SplitString(line)[1]);
-            }
-
+            total_mem = stof(SplitString(line)[1]);
         }
-
-        // Buffer: is on the 4th line, break if we've passed all the lines we want
-        if(counter >= 4) break;
         
-        counter++;
+        if (free_mem == float(0) && line.compare(0, searchTerm2.size(), searchTerm2) == 0)
+        {
+            free_mem = stof(SplitString(line)[1]);
+        }
+        
+        if (buffers == float(0) && line.compare(0, searchTerm3.size(), searchTerm3) == 0)
+        {
+            buffers = stof(SplitString(line)[1]);
+        }
     }
-
-    // Convert (Free memory / (Total Memory - Buffers)) to a percent representing amount of memory free for use
-    return float(100.0 * (1 - values.at("MemFree:") / (values.at("MemAvailable:") - values.at("Buffers:"))));
+    //calculating usage:
+    return float(100.0*(1-(free_mem/(total_mem-buffers))));
 }
 
 /*

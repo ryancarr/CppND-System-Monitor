@@ -31,11 +31,11 @@ void writeSysInfoToConsole(SysInfo sys, WINDOW* sys_win)
 
     mvwprintw(sys_win,2,2,getCString(( "OS: " + sys.getOSName())));
     mvwprintw(sys_win,3,2,getCString(( "Kernel version: " + sys.getKernelVersion())));
-    mvwprintw(sys_win,4,2,getCString( "CPU: "));
+    mvwprintw(sys_win,4,2,getCString( "CPU:    "));
     wattron(sys_win,COLOR_PAIR(1));
     wprintw(sys_win,getCString(Util::getProgressBar(sys.getCpuPercent())));
     wattroff(sys_win,COLOR_PAIR(1));
-    mvwprintw(sys_win,5,2,getCString(( "Other cores:")));
+    mvwprintw(sys_win,5,2,getCString(( "Other cores: ")));
     wattron(sys_win,COLOR_PAIR(1));
     vector<string> val = sys.getCoresStats();
     
@@ -118,7 +118,7 @@ void printMain(SysInfo sys,ProcessContainer procs)
 }
 
 /*
- *
+ * Main entry point of the program
  */
 int main(int argc, char *argv[])
 {
