@@ -28,6 +28,7 @@ using std::isdigit;
 using std::istringstream;
 using std::istream_iterator;
 using std::stof;
+using std::stoi;
 using std::unordered_map;
 using std::vector;
 
