@@ -4,7 +4,7 @@
 /*
  * Build a progress bar for each core
  * 
- * @return A vector of strings representing each core or an empty vector if problems happen
+ * @return A vector of strings representing each core or an empty vector if problems occur
  */
 vector<string> SysInfo::getCoresStats() const
 {
@@ -26,7 +26,10 @@ vector<string> SysInfo::getCoresStats() const
 }
 
 /*
- *
+ * Returns a string representing the current CPU percent
+ * 
+ * @return string
+ * 
  */
 string SysInfo::getCpuPercent() const
 {
@@ -34,7 +37,10 @@ string SysInfo::getCpuPercent() const
 }
 
 /*
- *
+ * Returns a string representing the current kernel version
+ * 
+ * @return string
+ * 
  */
 string SysInfo::getKernelVersion() const
 {
@@ -42,7 +48,10 @@ string SysInfo::getKernelVersion() const
 }
 
 /*
- *
+ * Returns the current memory percent used as a string
+ * 
+ * @return string
+ * 
  */
 string SysInfo::getMemPercent() const
 {
@@ -50,7 +59,10 @@ string SysInfo::getMemPercent() const
 }
 
 /*
- *
+ * Returns the OS name as a string
+ * 
+ * @return string
+ * 
  */
 string SysInfo::getOSName() const
 {
@@ -58,15 +70,20 @@ string SysInfo::getOSName() const
 }
 
 /*
- *
+ * Resizes all CPU Core Stats members to hold the appropriate number of stats
+ * 
+ * @param _size An integer representing how many cores are in the system
+ * 
  */
 void SysInfo::getOtherCores(int _size)
 {
-    //when number of cores is detected, vectors are modified to fit incoming data
+    // When number of cores is detected, vectors are modified to fit incoming data
     this->coresStats = vector<string>();
     this->coresStats.resize(_size);
+
     this->lastCpuCoresStats = vector<vector<string>>();
     this->lastCpuCoresStats.resize(_size);
+
     this->currentCpuCoresStats = vector<vector<string>>();
     this->currentCpuCoresStats.resize(_size);
     
@@ -77,7 +94,10 @@ void SysInfo::getOtherCores(int _size)
 }
 
 /*
- *
+ * Returns a string representing a running process
+ * 
+ * @return string
+ * 
  */
 string SysInfo::getRunningProc() const
 {
@@ -85,7 +105,10 @@ string SysInfo::getRunningProc() const
 }
 
 /*
- *
+ * Returns a string representing current thread count
+ * 
+ * @return string
+ * 
  */
 string SysInfo::getThreads() const
 {
@@ -93,7 +116,10 @@ string SysInfo::getThreads() const
 }
 
 /*
- *
+ * Returns a string representing total process count
+ * 
+ * @return string
+ * 
  */
 string SysInfo::getTotalProc() const
 {
@@ -101,7 +127,10 @@ string SysInfo::getTotalProc() const
 }
 
 /*
- *
+ * Returns a long integer prepresenting the system uptime
+ * 
+ * @return long
+ * 
  */
 long SysInfo::getUpTime() const
 {
@@ -111,15 +140,15 @@ long SysInfo::getUpTime() const
 
 #pragma region Setters
 /*
- *
+ * Sets the last CPU stats - total CPU usage as a percent
  */
 void SysInfo::setLastCpuMeasures()
 {
- this->lastCpuStats = ProcessParser::getSysCpuPercent("");
+    this->lastCpuStats = ProcessParser::getSysCpuPercent("");
 }
 
 /*
- *
+ * Refreshes CPU core stats, existing stats are backed up into lastCpuCoreStats
  */
 void SysInfo::setCpuCoresStats()
 {
@@ -135,11 +164,11 @@ void SysInfo::setCpuCoresStats()
 }
 
 /*
- *
+ * Initializes or refreshes SysInfo object
  */
 void SysInfo::setAttributes()
 {
-    // getting parsed data
+    // Getting parsed data
     this-> memPercent = ProcessParser::getSysRamPercent();
     this-> upTime = ProcessParser::getSysUpTime();
     this-> totalProc = ProcessParser::getTotalNumberOfProcesses();
