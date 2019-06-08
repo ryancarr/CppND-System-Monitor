@@ -63,11 +63,11 @@ void getProcessListToConsole(vector<string> processes,WINDOW* win)
 
     wattron(win,COLOR_PAIR(2));
     mvwprintw(win,1,2,"PID:");
-    mvwprintw(win,1,9,"User:");
-    mvwprintw(win,1,16,"CPU[%%]:");
-    mvwprintw(win,1,26,"RAM[MB]:");
-    mvwprintw(win,1,35,"Uptime:");
-    mvwprintw(win,1,44,"CMD:");
+    mvwprintw(win,1,11,"User:");
+    mvwprintw(win,1,21,"CPU[%%]:");
+    mvwprintw(win,1,32,"RAM[MB]:");
+    mvwprintw(win,1,42,"Uptime:");
+    mvwprintw(win,1,55,"CMD:");
     wattroff(win, COLOR_PAIR(2));
     
     for(int i=0; i< processes.size();i++)

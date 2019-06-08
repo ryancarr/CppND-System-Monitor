@@ -34,10 +34,12 @@ using std::vector;
 
 
 
-class ProcessParser{
+class ProcessParser
+{
     private:
         static vector<string> SplitString(string);
         static vector<string> SplitString(string, string);
+        
     public:
         static string getCmd(string);
         static string getCpuPercent(string);
@@ -56,6 +58,7 @@ class ProcessParser{
         static int getTotalNumberOfProcesses();
         static int getTotalThreads();
         static string getVmSize(string);
+        
         static string CalculateCpuStats(vector<string>, vector<string>);
         static bool isPidExisting(string);
 };

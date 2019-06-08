@@ -79,13 +79,26 @@ string Process::getProcess()
     this->mem = ProcessParser::getVmSize(this->pid);
     this->upTime = ProcessParser::getProcUpTime(this->pid);
     this->cpu = ProcessParser::getCpuPercent(this->pid);
+    
+    string cmd = this->cmd.substr(0,100);
+    string cpu = this->cpu;
+    string mem = this->mem.substr(0,5);
+    string pid = this->pid;
+    string upTime = this->upTime;        
+    string user = ProcessParser::getProcUser(this->pid).substr(0, 5);
 
-    return (this->pid + "   " + 
-            ProcessParser::getProcUser(this->pid).substr(0, 5) + "   " +
-            this->cpu + "   " +
-            this->mem.substr(0,5) + "M    " +
-            this->upTime + "   " +
-            this->cmd.substr(0,20));
+    // Pad strings so they are always of a certain width
+    pid.insert(pid.end(), 7 - pid.size(), ' ');
+    mem.insert(mem.end(), 5 - mem.size(), ' ');
+    user.insert(user.end(), 7 - user.size(), ' ');
+    upTime.insert(upTime.end(), 10 - upTime.size(), ' ');
+
+    return (pid + "  " + 
+            user + "   " +
+            cpu + "   " +
+            mem + "M    " +
+            upTime + "   " +
+            cmd);
 }
 
 /*
