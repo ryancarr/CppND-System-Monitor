@@ -337,6 +337,10 @@ string ProcessParser::getSysKernelVersion()
  */
 float ProcessParser::getSysRamPercent()
 {
+    // Originally had written this to use a hash map and if checks
+    // For some reason it would occasionally return -nan
+    // I gave up on troubleshooting it and opted for this version
+    // When solved I'll bring the previous version back
     ifstream inputStream;
     string line;
     string searchTerm1 = "MemAvailable:";
@@ -354,19 +358,13 @@ float ProcessParser::getSysRamPercent()
     while (std::getline(inputStream, line))
     {
         if (total_mem == float(0) && line.compare(0, searchTerm1.size(), searchTerm1) == 0)
-        {
             total_mem = stof(SplitString(line)[1]);
-        }
         
         if (free_mem == float(0) && line.compare(0, searchTerm2.size(), searchTerm2) == 0)
-        {
             free_mem = stof(SplitString(line)[1]);
-        }
         
         if (buffers == float(0) && line.compare(0, searchTerm3.size(), searchTerm3) == 0)
-        {
             buffers = stof(SplitString(line)[1]);
-        }
     }
     //calculating usage:
     return float(100.0*(1-(free_mem/(total_mem-buffers))));
