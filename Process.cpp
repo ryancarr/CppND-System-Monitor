@@ -80,12 +80,12 @@ string Process::getProcess()
     this->upTime = ProcessParser::getProcUpTime(this->pid);
     this->cpu = ProcessParser::getCpuPercent(this->pid);
     
-    string cmd = this->cmd.substr(0,100);
+    string cmd = this->cmd.substr(0,100); // Limit width of cmd to only 100 characters
     string cpu = this->cpu;
-    string mem = this->mem.substr(0,5);
+    string mem = this->mem.substr(0,5); // Limit mem to only 5 characters
     string pid = this->pid;
     string upTime = this->upTime;        
-    string user = ProcessParser::getProcUser(this->pid).substr(0, 5);
+    string user = ProcessParser::getProcUser(this->pid).substr(0, 5); // Limit user to 5 characters
 
     // Pad strings so they are always of a certain width
     pid.insert(pid.end(), 7 - pid.size(), ' ');
