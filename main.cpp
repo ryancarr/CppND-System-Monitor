@@ -13,7 +13,11 @@
 
 
 /*
- *
+ * Convert a string to a C string
+ * 
+ * @param string The string you'd like to convert
+ * 
+ * @return C String version of your string
  */
 char* getCString(string str)
 {
@@ -23,7 +27,11 @@ char* getCString(string str)
 }
 
 /*
- *
+ * The main draw method for the program
+ * 
+ * @param SysInfo The sysinfo object to use for this session
+ * 
+ * @param WINDOW* A pointer to the system window
  */
 void writeSysInfoToConsole(SysInfo sys, WINDOW* sys_win)
 {
@@ -56,9 +64,13 @@ void writeSysInfoToConsole(SysInfo sys, WINDOW* sys_win)
 }
 
 /*
- *
+ * A helper draw method that updates the process section of the screen
+ * 
+ * @param vector A vector of all the currently running processes
+ * 
+ * @param WINDOW* A pointer to the system window
  */
-void getProcessListToConsole(vector<string> processes,WINDOW* win)
+void getProcessListToConsole(vector<string> processes, WINDOW* win)
 {
 
     wattron(win,COLOR_PAIR(2));
@@ -77,7 +89,11 @@ void getProcessListToConsole(vector<string> processes,WINDOW* win)
 }
 
 /*
- *
+ * The main draw loop that calls the appropriate draw method
+ * 
+ * @param SysInfo The SysInfo object for this session
+ * 
+ * @param ProcessContainer The ProcessContainer object for this sesssion
  */
 void printMain(SysInfo sys,ProcessContainer procs)
 {
@@ -101,8 +117,8 @@ void printMain(SysInfo sys,ProcessContainer procs)
         box (proc_win,0,0);
         procs.refreshList();
         vector<vector<string>> processes = procs.getList();
-        writeSysInfoToConsole(sys,sys_win);
-        getProcessListToConsole(processes[counter],proc_win);
+        writeSysInfoToConsole(sys, sys_win);
+        getProcessListToConsole(processes[counter], proc_win);
         wrefresh(sys_win);
         wrefresh(proc_win);
         refresh();
