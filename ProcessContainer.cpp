@@ -1,7 +1,9 @@
 #include "ProcessContainer.h"
 
 /*
- *
+ * Retrieves a vector of all currently running processes
+ * 
+ * @return A vector of vectors containing strings
  */
 vector<vector<string> > ProcessContainer::getList()
 {
@@ -30,7 +32,7 @@ vector<vector<string> > ProcessContainer::getList()
 }
 
 /*
- *
+ * Make sure that the PID list is up to date
  */
 void ProcessContainer::refreshList()
 {
@@ -44,7 +46,7 @@ void ProcessContainer::refreshList()
 }
 
 /*
- *
+ * Outputs the stats of each process in the list
  */
 string ProcessContainer::printList()
 {
