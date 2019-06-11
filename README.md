@@ -1,15 +1,13 @@
 # CppND-System-Monitor
 
-Starter code for System Monitor Project in the C++ OOP course. Most of the code is provided for you here. Follow along with the classroom lesson to fill out the `ProcessParser` and `Process` classes to complete your project!
+This is a basic process manager similar to htop. Due to the way that this project was designed it requires Linux to run because it gathers information from the procfs. Windows and MacOS both lack this folder structure.
 
-## To setup and compile in Udacity Ubuntu workspace:
+## To setup and compile in Ubuntu:
 
-1. Clone repository into `/home/workspace/`
+1. Clone repository
 ```
-cd /home/workspace/
 git clone https://github.com/ryancarr/CppND-System-Monitor
 ```
-2. Follow along with the lesson and make sure you complete the `ProcessParser` and `Process` classes before attempting to run the project.
 
 3. Install `ncurses` package
 ```
